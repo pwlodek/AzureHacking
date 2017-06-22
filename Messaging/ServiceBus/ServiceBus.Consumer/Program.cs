@@ -4,18 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServiceBus.Producer
+namespace ServiceBus.Consumer
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var sender = new Sender();
-
-            for (int i = 0; i < 100; i++)
-            {
-                sender.Send("Important message: " + i);
-            }
+            var sender = new Receiver();
+            sender.Receive();
 
             Console.WriteLine("Press any key to quit.");
             Console.ReadKey();
