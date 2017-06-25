@@ -14,7 +14,8 @@ namespace Backend.Demo
         static void Main(string[] args)
         {
             var p = new Program();
-            p.AddNewItem();
+            //p.AddNewItem();
+            p.GetItems();
 
             Console.ReadKey();
         }
@@ -43,6 +44,20 @@ namespace Backend.Demo
 
                 Console.WriteLine("Sent item.");
                 Console.ReadKey();
+            }
+        }
+
+        private async void GetItems()
+        {
+            var client = new HttpClient();
+            var list = await client.GetStringAsync("http://localhost:50682/api/items");
+            var items = JsonConvert.DeserializeObject<IList<TodoItem>>(list);
+
+            Console.WriteLine($"Received {items.Count} items.");
+
+            foreach (var item in items)
+            {
+                Console.WriteLine($"Item named {item.Name} due on {item.DueDate}");
             }
         }
     }
