@@ -21,6 +21,7 @@ namespace Backend.Data
 
         public void Send(Message message)
         {
+            Console.WriteLine($"Sending message {message.Item.Name} to the queue");
             var msg = new BrokeredMessage(message);
             _client.Send(msg);
         }

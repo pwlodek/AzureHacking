@@ -12,16 +12,22 @@ namespace Backend.Data
     public class CosmosDbProvider
     {
         private const string EndpointUrl = "https://pwlodek.documents.azure.com:443/";
-        private const string PrimaryKey = "2QCRBXjV5olsHTTn3swHFQNR542h04sJEcWyTXviizC048T9fjwMbkbWPBThwfVoaIIVgXWUrSGLsDkJuhnQug==";
+        private const string PrimaryKey = "p9ofzlF4UU9ikJ90UIPuU4onJFSofpwIy9yQQlsApAhHH15WG6FUToSGtOm4BV1Lri3jjU9VZIBFBFeWQpxYGw==";
         private DocumentClient _client;
+        private bool _initialized;
 
         public CosmosDbProvider()
         {
 
         }
 
-        public async Task Init()
+        private async Task InitAsync()
         {
+            if (_initialized)
+            {
+                return;
+            }
+
             try
             {
                 _client = new DocumentClient(new Uri(EndpointUrl), PrimaryKey);
@@ -36,6 +42,8 @@ namespace Backend.Data
                     UriFactory.CreateDatabaseUri("TestDB"),
                     myCollection,
                     new RequestOptions { OfferThroughput = 400 });
+
+                _initialized = true;
             }
             catch (Exception ex)
             {
@@ -45,6 +53,8 @@ namespace Backend.Data
 
         public async Task<TodoItem> GetTodoItem(string id)
         {
+            await InitAsync();
+
             var result = await _client.ReadDocumentAsync<TodoItem>(
                    UriFactory.CreateDocumentUri("TestDB", "TodoItems", id),
                    new RequestOptions { PartitionKey = new PartitionKey("Piotr") });
@@ -54,13 +64,17 @@ namespace Backend.Data
 
         public async Task AddTodoItem(TodoItem item)
         {
+            await InitAsync();
+
             var result = await _client.CreateDocumentAsync(
                    UriFactory.CreateDocumentCollectionUri("TestDB", "TodoItems"),
                    item);
         }
 
-        public IEnumerable<TodoItem> GetTodoItems()
+        public async Task<IEnumerable<TodoItem>> GetTodoItems()
         {
+            await InitAsync();
+
             var result = _client.CreateDocumentQuery<TodoItem>(
                    UriFactory.CreateDocumentCollectionUri("TestDB", "TodoItems")).ToList();
 

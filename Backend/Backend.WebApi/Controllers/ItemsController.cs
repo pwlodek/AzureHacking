@@ -22,9 +22,9 @@ namespace Backend.WebApi.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<TodoItem> Get()
+        public async Task<IEnumerable<TodoItem>> Get()
         {
-            return _dbProvider.GetTodoItems();
+            return await _dbProvider.GetTodoItems();
         }
 
         // GET api/values/5
@@ -36,9 +36,11 @@ namespace Backend.WebApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]TodoItem value)
+        public IActionResult Post([FromBody]TodoItem value)
         {
             _queue.Send(new Message { Operation = Operation.Add, Item = value });
+
+            return Ok();
         }
 
         // PUT api/values/5

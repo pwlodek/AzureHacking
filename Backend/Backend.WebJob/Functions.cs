@@ -19,7 +19,7 @@ namespace Backend.WebJob
             _provider = new CosmosDbProvider();
         }
 
-        public void WriteLogPOCO([ServiceBusTrigger("mainqueue")] Message msg, TextWriter logger)
+        public void SaveTodoItem([ServiceBusTrigger("mainqueue")] Message msg, TextWriter logger)
         {
             logger.WriteLine("Queue message refers to todo item: " + msg.Item.Name);
 
