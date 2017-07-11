@@ -1,5 +1,4 @@
-﻿using Microsoft.ServiceBus;
-using Microsoft.ServiceBus.Messaging;
+﻿using Microsoft.ServiceBus.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace ServiceBus.Consumer
 {
-    class Receiver
+    class Subscription
     {
-        private string _connectionString = "Endpoint=sb://testnamespacepwlodek.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=jWa75vqk1yWscjFcQPkxflAMyfhIoH89S5HZZnaVfhQ=";
-        private string _queueName = "mainqueue";
-        private QueueClient _client;
+        private string _connectionString = "Endpoint=sb://piotrwservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=embSACe0jQiiSwWkAu9kAFcKa2vUZ8tEAUDLWggCCmw=";
+        private string _topicPath = "testtopic";
+        private string _subscriptionName = "subscription";
+        private SubscriptionClient _client;
 
-        public Receiver()
+        public Subscription(int num)
         {
-            _client = QueueClient.CreateFromConnectionString(_connectionString, _queueName, ReceiveMode.PeekLock);
-            
+            _subscriptionName = $"subscription{num}";
+            _client = SubscriptionClient.CreateFromConnectionString(_connectionString, _topicPath, _subscriptionName, ReceiveMode.PeekLock);            
         }
 
         public void Receive()

@@ -10,7 +10,9 @@ namespace ServiceBus.Consumer
     {
         static void Main(string[] args)
         {
-            var sender = new Receiver();
+            Console.WriteLine("Subscription number");
+            var num = int.Parse(Console.ReadLine());
+            var sender = new Subscription(num);
             sender.Receive();
 
             Console.WriteLine("Press any key to quit.");

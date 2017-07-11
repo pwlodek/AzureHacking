@@ -16,7 +16,7 @@ namespace Backend.Data
 
         public QueueSender()
         {
-            _client = QueueClient.CreateFromConnectionString(_connectionString, _queueName);
+               _client = QueueClient.CreateFromConnectionString(_connectionString, _queueName);
         }
 
         public void Send(Message message)
