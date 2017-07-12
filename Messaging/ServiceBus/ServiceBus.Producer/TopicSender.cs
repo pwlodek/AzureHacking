@@ -1,4 +1,5 @@
-﻿using Microsoft.ServiceBus.Messaging;
+﻿using Microsoft.ServiceBus;
+using Microsoft.ServiceBus.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,24 @@ namespace ServiceBus.Producer
 
         public TopicSender()
         {
-            _client = TopicClient.CreateFromConnectionString(_connectionString, _queueName);
+            // Create namespace client
+            NamespaceManager namespaceClient = NamespaceManager.CreateFromConnectionString(_connectionString);
+            TopicDescription topicDescription = null;
+
+            foreach (var item in namespaceClient.GetTopics())
+            {
+                if (item.Path == "maintopic")
+                {
+                    topicDescription = item;
+                    break;
+                }
+            }
+
+            if (topicDescription == null)
+                topicDescription = namespaceClient.CreateTopic("maintopic");
+
+            MessagingFactory factory = MessagingFactory.CreateFromConnectionString(_connectionString);
+            _client = factory.CreateTopicClient(topicDescription.Path);
         }
 
         public void Send(string message)
