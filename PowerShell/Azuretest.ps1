@@ -41,18 +41,31 @@ if ($plan -eq $null) {
     New-AzureRmAppServicePlan -ResourceGroupName 'DefaultARMResourceGroup' `
     -Name 'TempServicePlan' `
     -Location "West Europe"  `
-    -Tier Standard 
+    -Tier Standard  
 
+    
 } else {
     Write-Output 'App service plan exists'
 }
 
-Get-AzureRmAppServicePlan -Name 'TempServicePlan'
+$webApp = Get-AzureRmWebApp -Name 'PiotrWlodekTestApp998870'
+if ($webApp.Count -eq 0) {
+    Write-Output 'Creating web app'
+    #New-AzureRmWebApp -ResourceGroupName 'DefaultARMResourceGroup' -Name 'PiotrWlodekTestApp998877' -AppServicePlan 'TempServicePlan' -Location 'West Europe' 
+    New-AzureRmResource -Location "West Europe" -Properties @{webHostingPlan='TempServicePlan'} -ResourceName "PiotrWlodekTestApp998870" -ResourceType "microsoft.web/sites" -ResourceGroupName "DefaultARMResourceGroup" -Kind 'mobileapp' -Force
+    
+} else {
+    Write-Output 'Web app already exists'
+    Write-Output $webApp
+}
+
+#Get-AzureRmAppServicePlan -Name 'TempServicePlan'
 
 $del = Read-Host -Prompt 'Do you want to cleanup everything?'
 if ($del -eq 'y') {
     Write-Output 'Deleting all stuff'
-    Remove-AzureRmAppServicePlan -Name 'TempServicePlan' -ResourceGroupName 'DefaultARMResourceGroup' -Force
+    
+    #Remove-AzureRmAppServicePlan -Name 'TempServicePlan' -ResourceGroupName 'DefaultARMResourceGroup' -Force
     Remove-AzureRmResourceGroup -Name 'DefaultARMResourceGroup' -Force
 }
 
