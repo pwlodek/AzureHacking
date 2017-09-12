@@ -7,10 +7,10 @@ using Backend.Data.Model;
 
 namespace Backend.FunctionsApp
 {
-    public static class Function1
+    public class Function1
     {
         [FunctionName("Function1")]
-        public static void Run([ServiceBusTrigger("myqueue", AccessRights.Manage, Connection = "")]Message msg, TraceWriter log)
+        public static void Run([ServiceBusTrigger("mainqueue", AccessRights.Manage, Connection = "")]Message msg, TraceWriter log)
         {
             log.Info("Queue message refers to todo item: " + msg.Item.Name);
 

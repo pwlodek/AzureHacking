@@ -10,13 +10,13 @@ namespace Backend.Data
 {
     public class QueueSender
     {
-        private string _connectionString = "Endpoint=sb://testnamespacepwlodek.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=jWa75vqk1yWscjFcQPkxflAMyfhIoH89S5HZZnaVfhQ=";
+        private string _connectionString = "Endpoint=sb://testservicebuspiotr.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=vgO2vkNXfcwz1/3wI2zIR96Qz2eOKU77GP1k7rI3uFI=";
         private string _queueName = "mainqueue";
         private QueueClient _client;
 
         public QueueSender()
         {
-               _client = QueueClient.CreateFromConnectionString(_connectionString, _queueName);
+            _client = QueueClient.CreateFromConnectionString(_connectionString, _queueName);
         }
 
         public void Send(Message message)

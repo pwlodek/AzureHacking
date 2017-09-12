@@ -1,4 +1,5 @@
-﻿using Backend.Data.Model;
+﻿using Backend.Data;
+using Backend.Data.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,8 @@ namespace Backend.Demo
         {
             var p = new Program();
             //p.AddNewItem();
-            p.GetItems();
+            //p.GetItems();
+            p.AddNewItem2();
 
             Console.ReadKey();
         }
@@ -41,6 +43,30 @@ namespace Backend.Demo
                 HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 client.PostAsync("http://localhost:50682/api/items", content);
+
+                Console.WriteLine("Sent item.");
+                Console.ReadKey();
+            }
+        }
+
+        private void AddNewItem2()
+        {
+            var qs = new QueueSender();
+            while (true)
+            {
+                _count++;                
+
+                TodoItem item = new TodoItem()
+                {
+                    Name = $"Item {_count}",
+                    Completed = false,
+                    DueDate = DateTime.Now,
+                    UserName = "Piotrek"
+                };
+
+                Message m = new Message() { Operation = Operation.Add, Item = item };
+
+                qs.Send(m);
 
                 Console.WriteLine("Sent item.");
                 Console.ReadKey();
