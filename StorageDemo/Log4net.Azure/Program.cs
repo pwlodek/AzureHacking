@@ -12,6 +12,7 @@ namespace Log4net.Azure
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(Program));
 
+        private static readonly ILog _logger2 = LogManager.GetLogger("test logger");
 
         static void Main(string[] args)
         {
@@ -34,7 +35,7 @@ namespace Log4net.Azure
             Task.Run(() => {
                 for (int i = 0; i < 1000; i++)
                 {
-                    _logger.Warn($"Thread 2 logging events: {i}");
+                    _logger2.Warn($"Thread 2 logging events: {i}");
                 }
             });
 
