@@ -66,7 +66,7 @@ namespace ECommerce.ProductCatalog
             {
                 var p1 = new Product() { Id = Guid.NewGuid(), Name = "Product 1", Availability = 100, Description = "some desc", Price = 999 };
                 var p2 = new Product() { Id = Guid.NewGuid(), Name = "Product 2", Availability = 100, Description = "some desc", Price = 999 };
-                var p3 = new Product() { Id = Guid.NewGuid(), Name = "Product 2", Availability = 100, Description = "some desc", Price = 999 };
+                var p3 = new Product() { Id = Guid.NewGuid(), Name = "Product 3", Availability = 100, Description = "some desc", Price = 999 };
 
                 await productRepository.AddProduct(p1);
                 await productRepository.AddProduct(p2);
