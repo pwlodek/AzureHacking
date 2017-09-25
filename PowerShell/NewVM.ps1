@@ -82,3 +82,4 @@ if ($del -eq 'y') {
     #Remove-AzureRmAppServicePlan -Name 'TempServicePlan' -ResourceGroupName 'DefaultARMResourceGroup' -Force
     Remove-AzureRmResourceGroup -Name $rgroupName -Force
 }
+
