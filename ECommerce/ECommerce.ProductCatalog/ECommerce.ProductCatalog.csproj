@@ -92,6 +92,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerce.Domain\ECommerce.Domain.csproj">
+      <Project>{d1371b79-f9cf-4899-a3f7-4373398da285}</Project>
+      <Name>ECommerce.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
