@@ -7,17 +7,33 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using ProductCatalog.Data;
+using ECommerce.Domain.Services;
+using ECommerce.Domain;
+using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 
 namespace ECommerce.ProductCatalog
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class ProductCatalog : StatefulService
+    public class ProductCatalog : StatefulService, IProductCatalogService
     {
+        private ProductRepository productRepository;
+
         public ProductCatalog(StatefulServiceContext context)
             : base(context)
         { }
+
+        public async Task AddProduct(Product p)
+        {
+            await productRepository.AddProduct(p);
+        }
+
+        public Task<IEnumerable<Product>> GetAllProducts()
+        {
+            return productRepository.GetAllProducts();
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
@@ -28,7 +44,7 @@ namespace ECommerce.ProductCatalog
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new ServiceReplicaListener[0];
+            return new ServiceReplicaListener[] { new ServiceReplicaListener(ctx => this.CreateServiceRemotingListener(ctx)) };
         }
 
         /// <summary>
@@ -43,25 +59,18 @@ namespace ECommerce.ProductCatalog
 
             var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
 
-            while (true)
+            productRepository = new ProductRepository(StateManager);
+
+            var allp = await productRepository.GetAllProducts();
+            if (allp.Count() == 0)
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                var p1 = new Product() { Id = Guid.NewGuid(), Name = "Product 1", Availability = 100, Description = "some desc", Price = 999 };
+                var p2 = new Product() { Id = Guid.NewGuid(), Name = "Product 2", Availability = 100, Description = "some desc", Price = 999 };
+                var p3 = new Product() { Id = Guid.NewGuid(), Name = "Product 3", Availability = 100, Description = "some desc", Price = 999 };
 
-                using (var tx = this.StateManager.CreateTransaction())
-                {
-                    var result = await myDictionary.TryGetValueAsync(tx, "Counter");
-
-                    ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
-                        result.HasValue ? result.Value.ToString() : "Value does not exist.");
-
-                    await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
-
-                    // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
-                    // discarded, and nothing is saved to the secondary replicas.
-                    await tx.CommitAsync();
-                }
-
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                await productRepository.AddProduct(p1);
+                await productRepository.AddProduct(p2);
+                await productRepository.AddProduct(p3);
             }
         }
     }
