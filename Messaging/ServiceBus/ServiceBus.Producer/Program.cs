@@ -11,7 +11,7 @@ namespace ServiceBus.Producer
     {
         static void Main(string[] args)
         {
-            var sender = new TopicSender();
+            var sender = new EventSender();
 
             for (int i = 0; i < 100; i++)
             {
