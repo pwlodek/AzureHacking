@@ -61,6 +61,7 @@ namespace CosmosDB_Test
         {
             var result =  _client.CreateDocumentQuery<TodoItem>(
                    UriFactory.CreateDocumentCollectionUri("TestDB", "TodoItems")).ToList();
+           
 
             return result;
         }

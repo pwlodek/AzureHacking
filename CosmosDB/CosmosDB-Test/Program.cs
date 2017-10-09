@@ -55,9 +55,19 @@ namespace CosmosDB_Test
             }
         }
 
+        public async void Run2()
+        {
+            var p = new CosmosDbFun();
+            await p.Init();
+            await p.Run();
+
+            Console.WriteLine("Hit any key to close.");
+            Console.ReadKey();
+        }
+
         static void Main(string[] args)
         {
-            new Program().Run();
+            new Program().Run2();
             Console.ReadKey();
         }
     }
