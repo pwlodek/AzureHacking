@@ -13,7 +13,7 @@ namespace ECommerce.API.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private static ActorId _actorId = ActorId.CreateRandom();
+        private ActorId _actorId = ActorId.CreateRandom();
 
         public ValuesController()
         {

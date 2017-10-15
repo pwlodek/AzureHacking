@@ -33,7 +33,19 @@ namespace SampleActor
 
         public async Task<IEnumerable<string>> GetValuesAsync(CancellationToken cancellationToken)
         {
-            return new string[] { "value1", "value2", "value3" };
+            var list =  new List<String> { "value1", "value2", "value3" };
+            list.Add($"thread id {System.Threading.Thread.CurrentThread.ManagedThreadId}");
+
+            var nodeId = this.ActorService.Context.NodeContext.NodeId;
+            Guid partitionId = this.ActorService.Context.PartitionId;
+            string serviceTypeName = this.ActorService.Context.ServiceTypeName;
+            Uri serviceInstanceName = this.ActorService.Context.ServiceName;
+            string applicationInstanceName = this.ActorService.Context.CodePackageActivationContext.ApplicationName;
+
+            list.Add($"node id {nodeId}");
+            list.Add($"partitiion id {partitionId}");
+
+            return list;
         }
 
         /// <summary>
