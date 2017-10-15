@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.API", "ECommerce.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Domain", "ECommerce.Domain\ECommerce.Domain.csproj", "{D1371B79-F9CF-4899-A3F7-4373398DA285}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleActor", "SampleActor\SampleActor.csproj", "{41DB91ED-E025-4504-AAAA-F7B065DF8C79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleActor.Interfaces", "SampleActor.Interfaces\SampleActor.Interfaces.csproj", "{9A323C50-4223-47F0-8EB3-C378A1C1220E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,18 @@ Global
 		{D1371B79-F9CF-4899-A3F7-4373398DA285}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D1371B79-F9CF-4899-A3F7-4373398DA285}.Release|x64.ActiveCfg = Release|Any CPU
 		{D1371B79-F9CF-4899-A3F7-4373398DA285}.Release|x64.Build.0 = Release|Any CPU
+		{41DB91ED-E025-4504-AAAA-F7B065DF8C79}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{41DB91ED-E025-4504-AAAA-F7B065DF8C79}.Debug|x64.ActiveCfg = Debug|x64
+		{41DB91ED-E025-4504-AAAA-F7B065DF8C79}.Debug|x64.Build.0 = Debug|x64
+		{41DB91ED-E025-4504-AAAA-F7B065DF8C79}.Release|Any CPU.ActiveCfg = Release|x64
+		{41DB91ED-E025-4504-AAAA-F7B065DF8C79}.Release|x64.ActiveCfg = Release|x64
+		{41DB91ED-E025-4504-AAAA-F7B065DF8C79}.Release|x64.Build.0 = Release|x64
+		{9A323C50-4223-47F0-8EB3-C378A1C1220E}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{9A323C50-4223-47F0-8EB3-C378A1C1220E}.Debug|x64.ActiveCfg = Debug|x64
+		{9A323C50-4223-47F0-8EB3-C378A1C1220E}.Debug|x64.Build.0 = Debug|x64
+		{9A323C50-4223-47F0-8EB3-C378A1C1220E}.Release|Any CPU.ActiveCfg = Release|x64
+		{9A323C50-4223-47F0-8EB3-C378A1C1220E}.Release|x64.ActiveCfg = Release|x64
+		{9A323C50-4223-47F0-8EB3-C378A1C1220E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
