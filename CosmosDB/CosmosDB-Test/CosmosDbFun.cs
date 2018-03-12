@@ -12,8 +12,8 @@ namespace CosmosDB_Test
 {
     class CosmosDbFun
     {
-        private const string EndpointUrl = "https://piotrcosmos.documents.azure.com:443/";
-        private const string PrimaryKey = "0uXBumgurjklB88r3NF93qsqH1tp3q7JMF3k8GMUr0CnBHKdxMBzzcgJJNyulM81UW5SVdhDAOtRZGtuUam1PA==";
+        private const string EndpointUrl = "https://localhost:8081/";
+        private const string PrimaryKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
         private DocumentClient _client;
         
 
