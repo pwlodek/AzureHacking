@@ -2,6 +2,7 @@
 using Microsoft.Azure.EventHubs.Processor;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,15 +10,21 @@ namespace Consumer
 {
     public class SimpleEventProcessor : IEventProcessor
     {
+        private Stopwatch _timer = new Stopwatch();
+
         public Task CloseAsync(PartitionContext context, CloseReason reason)
         {
             Console.WriteLine($"Processor Shutting Down. Partition '{context.PartitionId}', Reason: '{reason}'.");
+            _timer.Stop();
+
             return Task.CompletedTask;
         }
 
         public Task OpenAsync(PartitionContext context)
         {
             Console.WriteLine($"SimpleEventProcessor initialized. Partition: '{context.PartitionId}'");
+            _timer.Start();
+
             return Task.CompletedTask;
         }
 
@@ -27,7 +34,7 @@ namespace Consumer
             return Task.CompletedTask;
         }
 
-        public Task ProcessEventsAsync(PartitionContext context, IEnumerable<EventData> messages)
+        public async Task ProcessEventsAsync(PartitionContext context, IEnumerable<EventData> messages)
         {
             foreach (var eventData in messages)
             {
@@ -35,7 +42,12 @@ namespace Consumer
                 Console.WriteLine($"Message received. Partition: '{context.PartitionId}', Data: '{data}'");
             }
 
-            return context.CheckpointAsync();
+            if (_timer.Elapsed > TimeSpan.FromSeconds(10))
+            {
+                await context.CheckpointAsync();
+                _timer.Restart();
+            }
+            //return context.CheckpointAsync();
         }
     }
 }

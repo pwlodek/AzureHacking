@@ -32,8 +32,13 @@ namespace Consumer
                 StorageConnectionString,
                 StorageContainerName);
 
+            var eventProcessorOptions = new EventProcessorOptions();
+            eventProcessorOptions.SetExceptionHandler(e => {
+                Console.WriteLine("Error: " + e.Exception);
+            });
+
             // Registers the Event Processor Host and starts receiving messages
-            await eventProcessorHost.RegisterEventProcessorAsync<SimpleEventProcessor>();
+            await eventProcessorHost.RegisterEventProcessorAsync<SimpleEventProcessor>(eventProcessorOptions);
 
             Console.WriteLine("Receiving. Press ENTER to stop worker.");
             Console.ReadLine();
